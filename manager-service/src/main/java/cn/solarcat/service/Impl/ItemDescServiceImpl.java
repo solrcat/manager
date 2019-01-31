@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.dubbo.config.annotation.Service;
 
+import cn.solarcat.aop.Log;
+import cn.solarcat.common.pojo.ACTION;
+import cn.solarcat.common.pojo.LEVEL;
 import cn.solarcat.common.util.SolarCatResult;
 import cn.solarcat.mapper.TbItemDescMapper;
 import cn.solarcat.pojo.TbItemDesc;
@@ -19,12 +22,14 @@ public class ItemDescServiceImpl implements ItemDescService {
 	private TbItemDescMapper itemDescMapper;
 
 	@Override
+	@Log(action = ACTION.SELECT, level = LEVEL.SERVICE)
 	public SolarCatResult getItemDesc(Long itemId) {
 		TbItemDesc tbItemDesc = itemDescMapper.selectByPrimaryKey(itemId);
 		return SolarCatResult.ok(tbItemDesc);
 	}
 
 	@Override
+	@Log(action = ACTION.UPDATE, level = LEVEL.SERVICE)
 	public SolarCatResult updateItemDesc(TbItemDesc tbItemDesc) {
 		tbItemDesc.setUpdated(new Date());
 		itemDescMapper.updateByPrimaryKeySelective(tbItemDesc);

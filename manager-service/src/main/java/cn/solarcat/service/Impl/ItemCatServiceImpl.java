@@ -8,7 +8,10 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.dubbo.config.annotation.Service;
 
+import cn.solarcat.aop.Log;
+import cn.solarcat.common.pojo.ACTION;
 import cn.solarcat.common.pojo.EasyUITreeNode;
+import cn.solarcat.common.pojo.LEVEL;
 import cn.solarcat.mapper.TbItemCatMapper;
 import cn.solarcat.pojo.TbItemCat;
 import cn.solarcat.pojo.TbItemCatExample;
@@ -22,6 +25,7 @@ public class ItemCatServiceImpl implements ItemCatService {
 	private TbItemCatMapper itemCatMapper;
 
 	@Override
+	@Log(action = ACTION.SELECT, level = LEVEL.SERVICE)
 	public List<EasyUITreeNode> getItemCatList(long parentId) {
 		TbItemCatExample example = new TbItemCatExample();
 		Criteria criteria = example.createCriteria();

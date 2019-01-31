@@ -26,6 +26,7 @@ import cn.solarcat.common.configuration.ActiveMQConfiguration;
 import cn.solarcat.common.configuration.ItemConfiguration;
 import cn.solarcat.common.pojo.ACTION;
 import cn.solarcat.common.pojo.EasyUIDataGridResult;
+import cn.solarcat.common.pojo.LEVEL;
 import cn.solarcat.common.util.IDUtils;
 import cn.solarcat.common.util.SolarCatResult;
 import cn.solarcat.mapper.TbItemDescMapper;
@@ -49,6 +50,7 @@ public class ItemServiceImpl implements ItemService {
 	private JmsTemplate jmsTemplate;
 
 	@Override
+	@Log(action = ACTION.ADD, level = LEVEL.SERVICE)
 	public SolarCatResult addItem(TbItem tbItem, String desc) {
 		final long Id = IDUtils.genItemId();
 		tbItem.setId(Id);
@@ -82,6 +84,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	@Log(action = ACTION.DELETE, level = LEVEL.SERVICE)
 	public SolarCatResult deleteItem(Long itemId) {
 		TbItem tbItem = itemMapper.selectByPrimaryKey(itemId);
 		tbItem.setStatus((byte) 3);
@@ -90,6 +93,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	@Log(action = ACTION.SELECT, level = LEVEL.SERVICE)
 	public TbItem getItem(Long itemId) {
 		TbItem tbItem = new TbItem();
 		tbItem = itemMapper.selectByPrimaryKey(itemId);
@@ -97,7 +101,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
-	@Log(action = ACTION.SELECT)
+	@Log(action = ACTION.SELECT, level = LEVEL.SERVICE)
 	public EasyUIDataGridResult getItemList(int page, int rows) {
 		// 设置分页信息
 		PageHelper.startPage(page, rows);
@@ -116,6 +120,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	@Log(action = ACTION.SELECT, level = LEVEL.SERVICE)
 	public TbItem getTbItemById(long itemId) {
 		try {
 			String json = redisTemplate.opsForValue().get(ItemConfiguration.REDIS_ITEM_PRE + ":" + itemId + ":BASE");
@@ -146,6 +151,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	@Log(action = ACTION.SELECT, level = LEVEL.SERVICE)
 	public TbItemDesc getTbItemDescById(long itemId) {
 		try {
 			String json = redisTemplate.opsForValue().get(ItemConfiguration.REDIS_ITEM_PRE + ":" + itemId + ":DESC");
@@ -170,6 +176,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	@Log(action = ACTION.UPDATE, level = LEVEL.SERVICE)
 	public SolarCatResult updateInstock(Long itemId) {
 		TbItem tbItem = itemMapper.selectByPrimaryKey(itemId);
 		tbItem.setStatus((byte) 2);
@@ -178,6 +185,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	@Log(action = ACTION.UPDATE, level = LEVEL.SERVICE)
 	public SolarCatResult updateItemAndDesc(TbItem item, TbItemDesc itemDesc) {
 		item.setUpdated(new Date());
 		itemMapper.updateByPrimaryKeySelective(item);
@@ -187,6 +195,7 @@ public class ItemServiceImpl implements ItemService {
 	}
 
 	@Override
+	@Log(action = ACTION.UPDATE, level = LEVEL.SERVICE)
 	public SolarCatResult updateReshelf(Long itemId) {
 		TbItem tbItem = itemMapper.selectByPrimaryKey(itemId);
 		tbItem.setStatus((byte) 1);

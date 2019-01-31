@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.dubbo.config.annotation.Service;
 
+import cn.solarcat.aop.Log;
+import cn.solarcat.common.pojo.ACTION;
+import cn.solarcat.common.pojo.LEVEL;
 import cn.solarcat.common.util.SolarCatResult;
 import cn.solarcat.mapper.TbItemParamItemMapper;
 import cn.solarcat.pojo.TbItemParamItem;
@@ -22,6 +25,7 @@ public class ItemParamItemServiceImpl implements ItemParamItemService {
 	private TbItemParamItemMapper itemParamItemService;
 
 	@Override
+	@Log(action = ACTION.SELECT, level = LEVEL.SERVICE)
 	public SolarCatResult getItemParamItem(long itemId) {
 		TbItemParamItemExample example = new TbItemParamItemExample();
 		Criteria criteria = example.createCriteria();
@@ -34,6 +38,7 @@ public class ItemParamItemServiceImpl implements ItemParamItemService {
 	}
 
 	@Override
+	@Log(action = ACTION.UPDATE, level = LEVEL.SERVICE)
 	public SolarCatResult updateItemParamItem(TbItemParamItem itemParamItem) {
 		itemParamItem.setUpdated(new Date());
 		itemParamItemService.updateByPrimaryKey(itemParamItem);

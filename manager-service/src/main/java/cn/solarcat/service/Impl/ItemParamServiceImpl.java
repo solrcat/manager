@@ -9,7 +9,10 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import cn.solarcat.aop.Log;
+import cn.solarcat.common.pojo.ACTION;
 import cn.solarcat.common.pojo.EasyUIDataGridResult;
+import cn.solarcat.common.pojo.LEVEL;
 import cn.solarcat.mapper.TbItemParamMapper;
 import cn.solarcat.pojo.TbItemParam;
 import cn.solarcat.pojo.TbItemParamExample;
@@ -22,6 +25,7 @@ public class ItemParamServiceImpl implements ItemParamService {
 	private TbItemParamMapper itemParamMapper;
 
 	@Override
+	@Log(action = ACTION.SELECT, level = LEVEL.SERVICE)
 	public EasyUIDataGridResult getItemParamList(int page, int rows) {
 		// 设置分页信息
 		PageHelper.startPage(page, rows);
